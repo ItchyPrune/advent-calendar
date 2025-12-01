@@ -1,0 +1,197 @@
+/* =========================
+   Global Styles
+========================= */
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    font-family: 'IM Fell English', Georgia, serif;
+    overflow: hidden;
+}
+
+/* =========================
+   Intro Video
+========================= */
+#introVideo {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 9999;
+}
+
+/* =========================
+   Main Content / Bookshelf
+========================= */
+#mainContent {
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#mainImage {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+}
+
+/* =========================
+   Book Hotspots
+========================= */
+.book {
+    position: absolute;
+    width: 2%;
+    height: 18%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.book:hover {
+    transform: translate(-50%, -50%) scale(1.07);
+}
+
+/* ============= GOLD NUMBER ON HOVER ============= */
+.book::after {
+    content: attr(data-day);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 22px;
+    font-weight: 700;
+
+    background: linear-gradient(
+        180deg,
+        #fff7cc 0%,
+        #d4af37 40%,
+        #b8860b 60%,
+        #fff7cc 100%
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+
+    text-shadow:
+        0 0 6px rgba(255, 215, 0, 0.8),
+        0 0 12px rgba(255, 165, 0, 0.5);
+
+    opacity: 0;
+    transition: all 0.25s ease;
+    pointer-events: none;
+}
+
+.book:hover::after {
+    opacity: 1;
+    top: -40px;
+    animation: glowPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes glowPulse {
+    0% { text-shadow: 0 0 6px rgb(247, 229, 128); }
+    50% { text-shadow: 0 0 18px rgb(247, 229, 128); }
+    100% { text-shadow: 0 0 6px rgb(247, 229, 128); }
+}
+
+/* =========================
+   Book Animation Container
+========================= */
+#bookAnimationContainer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 10001;
+}
+
+/* Videos */
+#bookAnimation {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Story Images */
+#bookStoryImage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+/* =========================
+   Close Book Button
+========================= */
+#closeBook {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10002;
+    padding: 10px 14px;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+
+    background: rgba(30, 20, 10, 0.85);
+    color: #f8e4b0;
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+
+    font-family: 'Cinzel Decorative', serif;
+}
+
+#closeBook:hover {
+    background: black;
+}
+
+/* =========================
+   Parchment Fade-in
+========================= */
+
+/* =========================
+   Story Reveal (Top → Bottom)
+========================= */
+
+#bookStoryImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+
+  /* Start hidden */
+  clip-path: inset(0 0 100% 0);
+
+  animation: storyReveal 2.5s ease forwards;
+}
+
+@keyframes storyReveal {
+  0% {
+    clip-path: inset(0 0 100% 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+#blankBookImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  z-index: 1;
+}
+
+
+

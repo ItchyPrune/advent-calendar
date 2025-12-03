@@ -9,10 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=IM+Fell+English&display=swap" rel="stylesheet">
 </head>
 
+
+
 <body>
+<audio id="clickSound" src="sounds/click_sound.mp3" preload="auto"></audio>
+<audio id="openingTheme" src="sounds/opening_theme.mp3" preload="auto" loop></audio>
+<audio id="pageTurnSound" src="sounds/turn_page_sound.mp3" preload="auto"></audio>
+
+  <!-- Opening room screen -->
+<div id="openingRoom">
+  <img src="images/opening_room.png" alt="Opening Room">
+  <div id="startHint">Click to enter</div>
+</div>
+
 
   <!-- Intro animation -->
-  <video id="introVideo" autoplay muted playsinline>
+  <video id="introVideo" muted playsinline>
     <source src="videos/opening_animation.mp4" type="video/mp4">
   </video>
 
@@ -66,7 +78,26 @@
     alt="Story"
     >
 
-    <button id="closeBook">Back to Shelf</button>
+    <img 
+    id="closeBook" 
+    src="images/exit_button.png" 
+    alt="Exit Book"
+   >
+   <img
+    id="turnPage"
+    src="images/turn_page_button.png"
+    alt="Turn Page"
+    >
+
+    <video 
+    id="pageTurnVideo" 
+    src="videos/page_turn.mp4" 
+    playsinline>
+    </video>
+
+
+
+
   </div>
 
   <script src="js/main.js"></script>

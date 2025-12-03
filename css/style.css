@@ -131,34 +131,52 @@ body {
    Close Book Button
 ========================= */
 #closeBook {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 10002;
-    padding: 10px 14px;
-    font-size: 15px;
-    cursor: pointer;
-    display: none;
+  position: fixed;
+  top: 20px;
+  left: 380px;
 
-    background: rgba(30, 20, 10, 0.85);
-    color: #f8e4b0;
-    border: 1px solid #d4af37;
-    border-radius: 6px;
+  width: 80px;        /* change size if needed */
+  height: auto;
+  cursor: pointer;
+  display: none;
 
-    font-family: 'Cinzel Decorative', serif;
+  z-index: 10002;
+  opacity: 0.9;
+
+  transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
 }
 
 #closeBook:hover {
-    background: black;
+  transform: scale(1.1);
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,0.8));
 }
 
-/* =========================
-   Parchment Fade-in
-========================= */
 
-/* =========================
-   Story Reveal (Top → Bottom)
-========================= */
+#turnPage {
+  position: fixed;
+  bottom: 26px;      /* sits below exit button – tweak if needed */
+  right: 320px;
+
+  width: 200px;
+  height: auto;
+
+  cursor: pointer;
+  display: none;   /* we’ll show it in JS when needed */
+
+  z-index: 10002;
+  opacity: 0.9;
+
+  transition: transform 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+}
+
+#turnPage:hover {
+  transform: scale(1.1);
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(212,175,55,0.8));
+}
+
+
 
 #bookStoryImage {
   position: absolute;
@@ -195,3 +213,48 @@ body {
 
 
 
+#openingRoom {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  cursor: pointer;
+}
+
+#openingRoom img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#startHint {
+  position: absolute;
+  bottom: 12%;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: #f8e4b0;
+  opacity: 0.85;
+  text-shadow: 0 0 15px rgba(212,175,55,0.8);
+  animation: pulseHint 2s infinite;
+}
+
+@keyframes pulseHint {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+#pageTurnVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  display: none;
+  z-index: 3;
+}

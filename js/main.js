@@ -17,37 +17,86 @@ const turnPage = document.getElementById("turnPage");
 const pageTurnVideo = document.getElementById("pageTurnVideo");
 const pageTurnSound = document.getElementById("pageTurnSound");
 
+let currentDay = null;
+let currentPage = 1;
+
+function loadStoryPage(day, page) {
+  const base = `images/story${day}.png`;
+  const page2 = `images/story${day}pg2.png`;
+
+  let targetImg = base;
+
+  if (page === 2) {
+    // Check if page 2 exists
+    const imgTest = new Image();
+    imgTest.onload = () => {
+      targetImg = page2;
+      showStoryImage(targetImg);
+    };
+    imgTest.onerror = () => {
+      // No second page → show empty book
+      showStoryImage("images/Empty_book.png", false);
+    };
+    imgTest.src = page2;
+    return;
+  }
+
+  // Page 1 always exists
+  showStoryImage(base);
+}
+
+function showStoryImage(src, animate = true) {
+  bookStoryImage.src = src;
+  bookStoryImage.style.display = 'block';
+
+  // Reset animation
+  if (animate) {
+    bookStoryImage.style.animation = "none";
+    void bookStoryImage.offsetHeight;
+    bookStoryImage.style.animation = "storyReveal 2.5s ease forwards";
+  } else {
+    bookStoryImage.style.animation = "none";
+  }
+}
+
+
 
 turnPage.addEventListener("click", () => {
 
-  // Play page turn sound
+  // Play sound
   if (pageTurnSound) {
     pageTurnSound.currentTime = 0;
-    pageTurnSound.volume = 0.7; // adjust if needed
+    pageTurnSound.volume = 0.7;
     pageTurnSound.play().catch(() => {});
   }
 
   // Hide current story
   bookStoryImage.style.display = "none";
 
-  // Show and play page turn animation
+  // Play animation
   pageTurnVideo.style.display = "block";
   pageTurnVideo.currentTime = 0;
   pageTurnVideo.play();
-
 });
+
 
 
 pageTurnVideo.addEventListener("ended", () => {
   pageTurnVideo.style.display = "none";
 
-  // Show empty book again
+  currentPage++;
+
+  // Attempt to load next page
+  loadStoryPage(currentDay, currentPage);
+
+  // Always keep blank book visible
   blankBookImage.style.display = "block";
 
-  // Keep the buttons visible
+  // Buttons remain
   closeBook.style.display = "block";
   turnPage.style.display = "block";
 });
+
 
 
 function playOpeningTheme() {
@@ -179,11 +228,12 @@ const storyImages = {
   24: 'images/story24.png'
 };
 
-// Click book
 books.forEach(book => {
   book.addEventListener('click', () => {
     playClickSound();
-    const day = book.getAttribute('data-day');
+
+    currentDay = book.getAttribute('data-day');
+    currentPage = 1; // reset to first page when opening book
 
     mainContent.style.display = 'none';
     bookContainer.style.display = 'block';
@@ -191,34 +241,28 @@ books.forEach(book => {
     bookVideo.style.display = 'block';
     bookStoryImage.style.display = 'none';
     closeBook.style.display = 'none';
+    turnPage.style.display = 'none';
 
     bookVideo.src = 'videos/zoom_to_book.mp4';
     bookVideo.currentTime = 0;
     bookVideo.play();
 
     bookVideo.onended = () => {
-bookVideo.style.display = 'none';
 
-/* Show blank book under story */
-blankBookImage.style.display = 'block';
+      bookVideo.style.display = 'none';
 
-/* Load story image */
-bookStoryImage.src = storyImages[day];
-bookStoryImage.style.display = 'block';
+      // Blank book underlay
+      blankBookImage.style.display = 'block';
 
-/* Reset + trigger reveal animation */
-bookStoryImage.style.animation = "none";
-void bookStoryImage.offsetHeight;
-bookStoryImage.style.animation = "storyReveal 2.5s ease forwards";
+      // Load first page
+      loadStoryPage(currentDay, 1);
 
-/* Show close button */
-closeBook.style.display = "block";
-turnPage.style.display = "block";
-
-
+      closeBook.style.display = "block";
+      turnPage.style.display = "block";
     };
   });
 });
+
 
 // Close button
 closeBook.addEventListener('click', () => {

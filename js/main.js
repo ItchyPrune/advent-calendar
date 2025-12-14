@@ -21,29 +21,35 @@ let currentDay = null;
 let currentPage = 1;
 
 function loadStoryPage(day, page) {
-  const base = `images/story${day}.png`;
-  const page2 = `images/story${day}pg2.png`;
+  let src;
 
-  let targetImg = base;
-
-  if (page === 2) {
-    // Check if page 2 exists
-    const imgTest = new Image();
-    imgTest.onload = () => {
-      targetImg = page2;
-      showStoryImage(targetImg);
-    };
-    imgTest.onerror = () => {
-      // No second page → show empty book
-      showStoryImage("images/Empty_book.png", false);
-    };
-    imgTest.src = page2;
-    return;
+  if (page === 1) {
+    src = `images/story${day}.png`;
+  } else {
+    src = `images/story${day}pg${page}.png`;
   }
 
-  // Page 1 always exists
-  showStoryImage(base);
+  const imgTest = new Image();
+
+  imgTest.onload = () => {
+    bookStoryImage.src = src;
+    bookStoryImage.style.display = 'block';
+
+    // Reset + trigger reveal animation
+    bookStoryImage.style.animation = "none";
+    void bookStoryImage.offsetHeight;
+    bookStoryImage.style.animation = "storyReveal 2.5s ease forwards";
+  };
+
+  imgTest.onerror = () => {
+    // Page does not exist → empty book
+    bookStoryImage.style.display = "none";
+    blankBookImage.style.display = "block";
+  };
+
+  imgTest.src = src;
 }
+
 
 function showStoryImage(src, animate = true) {
   bookStoryImage.src = src;
